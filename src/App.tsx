@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layout, Menu, Modal, Button, Input, Row, Col } from 'antd';
+import { Layout, Menu, Modal, Button, Input, Row, Col, Form } from 'antd';
 import './App.css';
 import { LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 import CheckoutRecordsWebAPI from './WebAPIs/CheckoutRecordsWebAPI';
@@ -14,7 +14,7 @@ const _checkinRecordsWebAPI = new CheckinRecordsWebAPI();
 
 function App() {
 
-  const [logined,setLogined] = useState<boolean>(false);
+  const [logined, setLogined] = useState<boolean>(false);
 
   const [checkoutModalVisible, setCheckoutModalVisible] = useState<boolean>(false);
   const [checkinModalVisible, setCheckinModalVisible] = useState<boolean>(false);
@@ -33,38 +33,52 @@ function App() {
         <div className="site-layout-content">
           <div className="HeaderBar">HJL-NL-TI-V Fixture Management System</div>
           {
-            logined?(
-          <div className='CommandButtonsContainer'>
-            <Button type="primary" icon={<LogoutOutlined />}
-              className='CommandButton' block
-              onClick={e => setCheckoutModalVisible(true)}>
-              Checkout</Button>
-            <Button icon={<LoginOutlined />} block
-              className='CommandButton' danger
-              onClick={e => setCheckinModalVisible(true)}>
-              Checkin
+            logined ? (
+              <div className='CommandButtonsContainer'>
+                <Button type="primary" icon={<LogoutOutlined />}
+                  className='CommandButton' block
+                  onClick={e => setCheckoutModalVisible(true)}>
+                  Checkout</Button>
+                <Button icon={<LoginOutlined />} block
+                  className='CommandButton' danger
+                  onClick={e => setCheckinModalVisible(true)}>
+                  Checkin
               </Button>
 
-            <Modal title="Checkout Confirm"
-              visible={checkoutModalVisible}
-              destroyOnClose
-              onCancel={OnCheckoutCancel}
-              onOk={OnCheckoutConfirm}>
-              <Input type="text" autoFocus value={fixtureNoString} onChange={e => setFixtureNoString(e.currentTarget.value)} />
-            </Modal>
+                <Modal title="Checkout Confirm"
+                  visible={checkoutModalVisible}
+                  destroyOnClose
+                  onOk={OnCheckoutConfirm}
+                  onCancel={OnCheckoutCancel}>
+                  <Form
+                    onFinish={OnCheckoutConfirm}
+                    onFinishFailed={OnCheckoutCancel}>
+                    <Form.Item label="Fixture No.">
+                      <Input type="text" autoFocus value={fixtureNoString}
+                        onInput={e => setFixtureNoString(e.currentTarget.value)} />
+                    </Form.Item>
+                  </Form>
+                </Modal>
 
-            <Modal title="Checkin Confirm"
-              visible={checkinModalVisible}
-              destroyOnClose
-              
-              onCancel={OnCheckinCancel}
-              onOk={OnCheckinConfirm}>
-              <Input type="text" autoFocus value={fixtureNoString} onChange={e => setFixtureNoString(e.currentTarget.value)} />
-            </Modal>
+                <Modal title="Checkin Confirm"
+                  visible={checkinModalVisible}
+                  destroyOnClose
+                  onOk={OnCheckinConfirm}
+                  onCancel={OnCheckinCancel}>
+                  <Form
+                    onFinish={OnCheckinConfirm}
+                    onFinishFailed={OnCheckinCancel}>
+                    <Form.Item label="Fixture No.">
+                      <Input type="text" autoFocus value={fixtureNoString}
+                        onInput={e => setFixtureNoString(e.currentTarget.value)} />
+                    </Form.Item>
+                  </Form>
 
-          </div>):
-          <SignIn OnSignIn={()=>setLogined(true)}/>
-          } 
+                </Modal>
+
+              </div>) :
+              <SignIn OnSignIn={() => setLogined(true)} />
+          }
         </div>
       </Content>
       <Footer style={{ textAlign: 'center' }}>
