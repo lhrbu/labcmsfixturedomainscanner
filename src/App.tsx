@@ -19,7 +19,6 @@ function App() {
   const [checkoutModalVisible, setCheckoutModalVisible] = useState<boolean>(false);
   const [checkinModalVisible, setCheckinModalVisible] = useState<boolean>(false);
   const [fixtureNoString, setFixtureNoString] = useState<string>("");
-  const [onSubmitting, setOnSubmitting] = useState<boolean>(false);
 
   return (
     <Layout className="layout">
@@ -38,12 +37,13 @@ function App() {
                 <Button type="primary" icon={<LogoutOutlined />}
                   className='CommandButton' block
                   onClick={e => setCheckoutModalVisible(true)}>
-                  Checkout</Button>
+                  Checkout
+                </Button>
                 <Button icon={<LoginOutlined />} block
                   className='CommandButton' danger
                   onClick={e => setCheckinModalVisible(true)}>
                   Checkin
-              </Button>
+                </Button>
 
                 <Modal title="Checkout Confirm"
                   visible={checkoutModalVisible}
@@ -89,7 +89,6 @@ function App() {
 
   async function OnCheckoutConfirm() {
     try {
-      setOnSubmitting(true);
       const fixtureNo = Number.parseInt(fixtureNoString);
       if (isNaN(fixtureNo)) {
         throw new Error("Input is not a valid fixture no");
@@ -99,9 +98,7 @@ function App() {
     } catch (error) {
       window.alert(error)
     } finally {
-      setFixtureNoString("");
-      setOnSubmitting(false);
-      setCheckoutModalVisible(false);
+      OnCheckoutCancel();
     }
   }
 
@@ -112,7 +109,6 @@ function App() {
 
   async function OnCheckinConfirm() {
     try {
-      setOnSubmitting(true);
       const fixtureNo = Number.parseInt(fixtureNoString);
       if (isNaN(fixtureNo)) {
         throw new Error("Input is not a valid fixture no");
@@ -122,9 +118,7 @@ function App() {
     } catch (error) {
       window.alert(error)
     } finally {
-      setFixtureNoString("");
-      setOnSubmitting(false);
-      setCheckinModalVisible(false);
+      OnCheckinCancel();
     }
   }
 
