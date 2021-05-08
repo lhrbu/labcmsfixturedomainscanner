@@ -8,6 +8,6 @@ export default class CheckoutRecordsWebAPI
     private readonly _url='/api/CheckoutRecords';
     public async FixtureRoomApproveAsync(fixtureNo:number)
     {
-        await axios.post(`${this._url}/FixtureRoomApprove/${fixtureNo}`,{params:{date:new Date()}});
+        await axios.post(`${this._url}/ScannerApprove/${fixtureNo}`,{params:{date:new Date()}});
     }
 }
